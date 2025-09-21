@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="ka" data-theme="dark">
 <head>
     <meta charset="UTF-8" />
@@ -355,6 +355,102 @@
                     </svg>
                 </div>
                 <div>
+                    <!-- რეგისტრაცია / შესვლა -->
+<div class="auth-container" id="auth-container">
+  <h2>შესვლა ან რეგისტრაცია</h2>
+  
+  <form id="register-form">
+    <h3>რეგისტრაცია</h3>
+    <input type="text" id="reg-username" placeholder="მომხმარებლის სახელი" required>
+    <input type="email" id="reg-email" placeholder="ელ. ფოსტა" required>
+    <input type="password" id="reg-password" placeholder="პაროლი" required>
+    <button type="submit">რეგისტრაცია</button>
+  </form>
+
+  <form id="login-form">
+    <h3>შესვლა</h3>
+    <input type="email" id="login-email" placeholder="ელ. ფოსტა" required>
+    <input type="password" id="login-password" placeholder="პაროლი" required>
+    <button type="submit">შესვლა</button>
+  </form>
+  
+  <p id="auth-message"></p>
+</div>
+
+<script>
+// რეგისტრაცია
+document.getElementById("register-form").addEventListener("submit", function(e) {
+  e.preventDefault();
+  const username = document.getElementById("reg-username").value;
+  const email = document.getElementById("reg-email").value;
+  const password = document.getElementById("reg-password").value;
+
+  if(localStorage.getItem(email)){
+    document.getElementById("auth-message").innerText = "ასეთი ელ.ფოსტა უკვე არსებობს!";
+  } else {
+    localStorage.setItem(email, JSON.stringify({username, password}));
+    document.getElementById("auth-message").innerText = "რეგისტრაცია წარმატებით დასრულდა!";
+  }
+});
+
+// შესვლა
+document.getElementById("login-form").addEventListener("submit", function(e) {
+  e.preventDefault();
+  const email = document.getElementById("login-email").value;
+  const password = document.getElementById("login-password").value;
+
+  const user = JSON.parse(localStorage.getItem(email));
+  if(user && user.password === password){
+    document.getElementById("auth-message").innerText = "მოგესალმები, " + user.username + "!";
+    localStorage.setItem("loggedInUser", user.username);
+  } else {
+    document.getElementById("auth-message").innerText = "არასწორი მონაცემებია!";
+  }
+});
+</script>
+
+<style>
+.auth-container {
+  max-width: 400px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+.auth-container h2, .auth-container h3 {
+  text-align: center;
+}
+.auth-container form {
+  margin-bottom: 20px;
+}
+.auth-container input {
+  display: block;
+  width: 100%;
+  margin: 8px 0;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+.auth-container button {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  background: #0077cc;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+}
+.auth-container button:hover {
+  background: #005fa3;
+}
+#auth-message {
+  text-align: center;
+  font-weight: bold;
+  margin-top: 10px;
+}
+</style>
                     <h1>IMEDCalc</h1>
                     <p>სამედიცინო კალკულატორები</p>
                 </div>
